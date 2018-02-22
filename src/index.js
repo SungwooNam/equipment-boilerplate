@@ -28,11 +28,10 @@ comm.on('listening', () => {
 
 comm.bind(41234);
 
-
-
 btnAutorun.onclick = (event) => { openTab(event, 'autorun'); log.debug('autorun clicked'); }
 btnManual.onclick = (event) => { openTab(event, 'manual'); log.debug('manual clicked'); }
 btnLog.onclick = (event) => { openTab(event, 'log'); log.debug('log clicked'); }
+btnAutorun.click();
 
 btnRun.onclick = (event) =>  {  
   comm.send( 

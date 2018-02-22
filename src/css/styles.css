@@ -6,6 +6,9 @@ body {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
 }
 
 .tab button {
@@ -32,6 +35,7 @@ body {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+    margin-top: 40px;
 }
 
 table#logTable {

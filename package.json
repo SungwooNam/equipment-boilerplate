@@ -1,0 +1,26 @@
+{
+  "name": "mocha_test",
+  "version": "1.0.0",
+  "description": "...",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "mocha --recursive tests",
+    "start": "electron ."
+  },
+  "author": "Sungwoo Nam",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "electron": "^1.8.2",
+    "electron-mocha": "^5.0.0",
+    "nock": "^9.1.6",
+    "sinon": "^4.3.0",
+    "spectron": "^3.8.0"
+  },
+  "dependencies": {
+    "electron-tabs": "^0.9.0",
+    "log4js": "^2.5.3",
+    "request": "^2.83.0"
+  }
+}

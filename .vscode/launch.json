@@ -21,7 +21,7 @@
             "type": "chrome",
             "request": "attach",
             "port": 9223,
-            "webRoot": "${workspaceRoot}/src/log.js",
+            "webRoot": "${workspaceRoot}",
             "timeout": 30000
         },
         {

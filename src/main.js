@@ -7,15 +7,15 @@ const url = require('url')
 
 let mainWindow
 
-function createWindow () {
-  mainWindow = new BrowserWindow({ 
-    width: 800, height: 600, 
-    resizable : false, 
-    movable : false, 
-    minimizable : false,
-    maximizable : false, 
-    fullscreen : false, 
-    frame : false 
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 800, height: 600,
+    resizable: false,
+    movable: false,
+    minimizable: false,
+    maximizable: false,
+    fullscreen: false,
+    frame: false
   })
 
   mainWindow.loadURL(url.format({
@@ -37,7 +37,7 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
- if (mainWindow === null) {
+  if (mainWindow === null) {
     createWindow()
   }
 })

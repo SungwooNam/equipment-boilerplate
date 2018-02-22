@@ -1,13 +1,5 @@
 {
     "appenders": {
-      "logTab" : {
-        "type" : "logTab",
-        "layout": { 
-          "type": "json", 
-          "separator": ","
-        },
-        "flavour" : "DEBUG"
-      },
       "access": {
         "type": "dateFile",
         "filename": "log/access.log",

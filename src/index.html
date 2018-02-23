@@ -21,21 +21,77 @@
     </div>
 
     <div id="manual" class="tabcontent">
-        <h3>Manual</h3>
-        <p>Manually operate equipement</p>
+        <div class="flex-container">
+        <header class="header">IO</header>
+        <aside class="aside aside1">
+            <h3>Input</h3>
+            <table id="ioIn">
+                <col width="30%">
+                <col width="70%">
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>door opened</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp left closed</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp left opended</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp right closed</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp right opended</td>
+                </tr>
+            </table>
+        </aside>
+        <article class="main">
+            <h3>Output</h3>
+            <table id="ioOut">
+                <col width="30%">
+                <col width="70%">
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>tower red</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>tower green</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>buzzer</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp left</td>
+                </tr>
+                <tr>
+                    <td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td>              
+                    <td>clamp right</td>
+                </tr>
+            </table>
+        </article>
+        <footer class="footer"></footer>
+    </div>
     </div>
 
     <div id="log" class="tabcontent">
-            <table id="logTable">
-                    <col width="30%">
-                    <col width="10%">
-                    <col width="60%">
-                    <tr>
-                        <th>Time</th>
-                        <th>Category</th>
-                        <th>Message</th>
-                    </tr>
-                </table>
+        <table id="logTable">
+            <col width="30%">
+            <col width="10%">
+            <col width="60%">
+            <tr>
+                <th>Time</th>
+                <th>Category</th>
+                <th>Message</th>
+            </tr>
+        </table>
     </div>
 
     <script>require('./index.js')</script>

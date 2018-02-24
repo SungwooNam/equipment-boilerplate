@@ -11,12 +11,10 @@ comm.on('error', (err) => {
 
 comm.on('message', (msg, rinfo) => {
   var jm = JSON.parse(msg);
-  if( jm != null && jm.cmd == 'ioUpdate' )
-  {
-    log.info( `ioUpdate @${jm.address} : ${jm.value}` );
+  if (jm != null && jm.cmd == 'ioUpdate') {
+    log.info(`ioUpdate @${jm.address} : ${jm.value}`);
   }
-  else
-  {
+  else {
     log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
   }
 });
@@ -33,23 +31,21 @@ btnManual.onclick = (event) => { openTab(event, 'manual'); log.debug('manual cli
 btnLog.onclick = (event) => { openTab(event, 'log'); log.debug('log clicked'); }
 btnAutorun.click();
 
-btnRun.onclick = (event) =>  {  
-  comm.send( 
-    '"cmd":"runEquipment"', 
-    50000, 'localhost', 
-    (err) => 
-    { 
-      log.error("Failed to send runEquipment"); 
+btnRun.onclick = (event) => {
+  comm.send(
+    '"cmd":"runEquipment"',
+    50000, 'localhost',
+    (err) => {
+      log.error("Failed to send runEquipment");
     });
 }
 
-btnStop.onclick = (event) =>  {  
-  comm.send( 
-    '"cmd":"stopEquipment"', 
-    50000, '127.0.0.1', 
-    (err) => 
-    { 
-      log.error("Failed to send stopEquipment"); 
+btnStop.onclick = (event) => {
+  comm.send(
+    '"cmd":"stopEquipment"',
+    50000, '127.0.0.1',
+    (err) => {
+      log.error("Failed to send stopEquipment");
     });
 }
 
@@ -84,23 +80,11 @@ function setupLog() {
       var table = document.getElementById("logTable");
       if (table != null) {
         var row = document.createElement("tr");
-
-        var td0 = document.createElement("td");
-        var td0text = document.createTextNode(logEvent.startTime.toLocaleString());
-        td0.appendChild(td0text);
-        row.appendChild(td0);
-
-        var td1 = document.createElement("td");
-        var td1text = document.createTextNode(logEvent.categoryName);
-        td1.appendChild(td1text);
-        row.appendChild(td1);
-
-        var td2 = document.createElement("td");
-        var td2text = document.createTextNode(logEvent.data);
-        td2.appendChild(td2text);
-        row.appendChild(td2);
-
-        table.appendChild(row);
+        row.innerHTML =
+          `<td>${logEvent.startTime.toLocaleString()}</td>
+         <td>${logEvent.categoryName}</td>
+         <td>${logEvent.data}</td>`;
+        table.append(row);
       }
 
       return "";

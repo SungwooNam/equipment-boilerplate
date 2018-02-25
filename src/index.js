@@ -1,5 +1,8 @@
-var log4js = require('log4js');
-var log = setupLog();
+const Log = require("./log")
+const log = new Log().getLogger("index");
+
+const Tab = require('./tab');
+const tab = new Tab();
 
 const dgram = require('dgram');
 const comm = dgram.createSocket('udp4');
@@ -26,9 +29,9 @@ comm.on('listening', () => {
 
 comm.bind(41234);
 
-btnAutorun.onclick = (event) => { openTab(event, 'autorun'); log.debug('autorun clicked'); }
-btnManual.onclick = (event) => { openTab(event, 'manual'); log.debug('manual clicked'); }
-btnLog.onclick = (event) => { openTab(event, 'log'); log.debug('log clicked'); }
+btnAutorun.onclick = (event) => { tab.select(event, 'autorun'); log.debug('autorun clicked'); }
+btnManual.onclick = (event) => { tab.select(event, 'manual'); log.debug('manual clicked'); }
+btnLog.onclick = (event) => { tab.select(event, 'log'); log.debug('log clicked'); }
 btnAutorun.click();
 
 btnRun.onclick = (event) => {
@@ -47,51 +50,4 @@ btnStop.onclick = (event) => {
     (err) => {
       log.error("Failed to send stopEquipment");
     });
-}
-
-function openTab(evt, tabId) {
-  var tabcontent = document.getElementsByClassName("tabcontent");
-  for (var i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  var tablinks = document.getElementsByClassName("tablinks");
-  for (var i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  document.getElementById(tabId).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-
-function setupLog() {
-  try {
-    require('fs').mkdirSync('./log');
-  } catch (e) {
-    if (e.code != 'EEXIST') {
-      console.error("Could not set up log directory, error was: ", e);
-      process.exit(1);
-    }
-  }
-
-  log4js.addLayout('json', function (config) {
-    return function (logEvent) {
-      var table = document.getElementById("logTable");
-      if (table != null) {
-        var row = document.createElement("tr");
-        row.innerHTML =
-          `<td>${logEvent.startTime.toLocaleString()}</td>
-         <td>${logEvent.categoryName}</td>
-         <td>${logEvent.data}</td>`;
-        table.append(row);
-      }
-
-      return "";
-    }
-  });
-  log4js.configure('./config/log4js.json');
-
-  var log = log4js.getLogger("index");
-  return log;
 }

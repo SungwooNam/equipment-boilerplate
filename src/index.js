@@ -15,11 +15,28 @@ comm.on('error', (err) => {
 comm.on('message', (msg, rinfo) => {
   var jm = JSON.parse(msg);
   if (jm != null && jm.cmd == 'ioUpdate') {
-    log.info(`ioUpdate @${jm.address} : ${jm.value}`);
+    // log.info(`ioUpdate @${jm.address} : ${jm.value}`);
+
+    if( jm.address == 0x300 )
+    {
+      var inport = document.getElementById('ioIn').getElementsByTagName('input');
+      for( var i = 0; i < inport.length; ++i )
+      {
+        inport[i].checked = jm.value[i] == '1' ? true : false;
+      }
+      return;
+    }
+    else if( jm.address == 0x400 )
+    {
+      var inport = document.getElementById('ioOut').getElementsByTagName('input');
+      for( var i = 0; i < inport.length; ++i )
+      {
+        inport[i].checked = jm.value[i] == '1' ? true : false;
+      }
+      return;
+    }
   }
-  else {
-    log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-  }
+  log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 });
 
 comm.on('listening', () => {

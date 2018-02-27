@@ -14,28 +14,30 @@ comm.on('error', (err) => {
 
 comm.on('message', (msg, rinfo) => {
   var jm = JSON.parse(msg);
+
   if (jm != null && jm.cmd == 'ioUpdate') {
     // log.info(`ioUpdate @${jm.address} : ${jm.value}`);
 
-    if( jm.address == 0x300 )
-    {
+    if (jm.address == 0x300) {
       var inport = document.getElementById('ioIn').getElementsByTagName('input');
-      for( var i = 0; i < inport.length; ++i )
-      {
+      for (var i = 0; i < inport.length; ++i) {
         inport[i].checked = jm.value[i] == '1' ? true : false;
       }
       return;
     }
-    else if( jm.address == 0x400 )
-    {
+    else if (jm.address == 0x400) {
       var inport = document.getElementById('ioOut').getElementsByTagName('input');
-      for( var i = 0; i < inport.length; ++i )
-      {
+      for (var i = 0; i < inport.length; ++i) {
         inport[i].checked = jm.value[i] == '1' ? true : false;
       }
       return;
     }
   }
+
+  if (jm != null && jm.cmd == 'servoUpdate') {
+    overview_stage.setAttribute( "transform", `translate(100 ${jm.value[0]}) rotate(0 0 0)`);
+  }
+ 
   log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 });
 
@@ -50,6 +52,41 @@ btnAutorun.onclick = (event) => { tab.select(event, 'autorun'); log.debug('autor
 btnManual.onclick = (event) => { tab.select(event, 'manual'); log.debug('manual clicked'); }
 btnLog.onclick = (event) => { tab.select(event, 'log'); log.debug('log clicked'); }
 btnAutorun.click();
+
+var mouseDown = 0;
+var viewBox = {
+  x: 0,
+  y: 0,
+  width: 500,
+  height: 500,
+}
+
+overview.onmousemove = (event) => {
+  if (mouseDown == 1) {
+    viewBox.x += event.movementX;
+    viewBox.y += event.movementY;
+    overview.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
+  }
+}
+
+overview.onmousewheel = (event) => {
+  var z = event.deltaY / 10;
+  viewBox.x += z;
+  viewBox.y += z;
+  viewBox.width -= z*2;
+  viewBox.height -= z*2;
+  overview.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
+}
+
+overview.onmousedown = (event) => {
+  mouseDown = event.which;
+}
+
+overview.onmouseup = (event) => {
+  mouseDown = 0;
+}
+
+
 
 btnRun.onclick = (event) => {
   comm.send(

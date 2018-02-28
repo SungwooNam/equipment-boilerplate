@@ -17,15 +17,32 @@
     <div id="autorun" class="tabcontent">
         <div class="flex-container">
             <aside class="aside aside1">
-                <svg id="overview" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500"
+                <svg id="overview" version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="-1000 -1000 2000 2000"
                     style="background-color: black;">
-                    <g id="overview_stage" transform="translate(100 50) rotate(0 0 0)">
-                        <rect x="0" y="0" height="200" width="200" style="stroke: #f6fa01;" />
-                        <text x="80" y="80" style="stroke: #f5f5f5;">
-                            Stage
-                        </text>
+
+                    <defs>
+                        <g id="y_axis_stage">
+                            <rect x="0" y="0" width="150" height="1000" style="stroke:white; fill: none; stroke-width: 3px;"/>
+                            <text x="70" y="50" style="letter-spacing:20; fill: white; stroke: none; font-size: 80px; writing-mode: tb;">stage carrier</text>
+                        </g>
+                        <g id="x_shift_camera">
+                            <rect x="0" y="0" width="200" height="150" style="stroke:yellow; fill: none; stroke-width: 5px;"/>
+                            <text x="10" y="70" style="letter-spacing:1; fill: yellow; stroke: none; font-size: 50px;">카메라</text>
+                        </g>
+                    </defs>
+
+                    <g id="overview_stage" transform="translate(0 0) rotate(0 0 0)">
+                        <use xlink:href="#y_axis_stage" x="-600" y="-1000" />
+                        <use xlink:href="#y_axis_stage" x="600" y="-1000" />
+                        <rect x="-500" y="-900" width="1150" height="800" style="stroke:green; fill: none; stroke-width: 3px;"/>
+                        <text x="0" y="-400" style="letter-spacing:20; fill: green; stroke: none; font-size: 80px; ">glass</text>
                     </g>
-                    <rect x="100" y="200" width="300" height="100" style="stroke:white;" />
+
+                    <rect x="-800" y="400" width="1600" height="100" style="stroke:red; fill: none; stroke-width: 3px;" />
+                    
+                    <g id="overview_shift" transform="translate(0 0) rotate(0 0 0)">
+                        <use xlink:href="#x_shift_camera" x="-650" y="250" />
+                    </g>
                 </svg>
             </aside>
             <article class="main">
@@ -36,7 +53,7 @@
             </article>
         </div>
     </div>
-    
+
     <div id="manual" class="tabcontent">
         <div class="flex-container">
             <header class="header">IO</header>
@@ -45,25 +62,177 @@
                 <table id="ioIn">
                     <col width="30%">
                     <col width="70%">
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_SENSOR_LOADER</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_SENSOR_UNLOADER</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_SENSOR_STAGE</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_SENSOR_UP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_LEFT_TOP_CLMAPED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_LEFT_TOP_RELEASED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_LEFT_BOTTOM_CLAMPED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_LEFT_BOTTOM_RELEASED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_RIGHT_TOP_CLAMPED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_RIGHT_TOP_RELEASED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_RIGHT_BOTTOM_CLAMPED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_RIGHT_BOTTOM_RELEASED</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_GLASS_STGAE</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_GLASS_IN_BUFFER</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>IN_GLASS_OUT_BUFFER</td></tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_SENSOR_LOADER</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_SENSOR_UNLOADER</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_SENSOR_STAGE</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_SENSOR_UP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_LEFT_TOP_CLMAPED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_LEFT_TOP_RELEASED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_LEFT_BOTTOM_CLAMPED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_LEFT_BOTTOM_RELEASED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_RIGHT_TOP_CLAMPED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_RIGHT_TOP_RELEASED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_RIGHT_BOTTOM_CLAMPED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_RIGHT_BOTTOM_RELEASED</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_GLASS_STGAE</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_GLASS_IN_BUFFER</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>IN_GLASS_OUT_BUFFER</td>
+                    </tr>
                 </table>
             </aside>
             <article class="main">
@@ -71,22 +240,150 @@
                 <table id="ioOut">
                     <col width="30%">
                     <col width="70%">
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_CLAMP_LOADER</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_CLAMP_UNLOADER</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_CLAMP_STAGE</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_CLAMP_UP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_LEFT_TOP_CLAMP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_LEFT_BOTTOM_CLAMP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_RIGHT_TOP_CLAMP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>OUT_RIGHT_BOTTOM_CLAMP</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
-                    <tr><td><label class="switch"><input type="checkbox"/><span class="slider"></span></label></td><td>N/A</td></tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_CLAMP_LOADER</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_CLAMP_UNLOADER</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_CLAMP_STAGE</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_CLAMP_UP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_LEFT_TOP_CLAMP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_LEFT_BOTTOM_CLAMP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_RIGHT_TOP_CLAMP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>OUT_RIGHT_BOTTOM_CLAMP</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <td>N/A</td>
+                    </tr>
                 </table>
             </article>
             <footer class="footer"></footer>

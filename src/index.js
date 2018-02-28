@@ -35,7 +35,13 @@ comm.on('message', (msg, rinfo) => {
   }
 
   if (jm != null && jm.cmd == 'servoUpdate') {
-    overview_stage.setAttribute( "transform", `translate(100 ${jm.value[0]}) rotate(0 0 0)`);
+
+    var ypos = -parseInt(jm.value[0]);
+    var xpos = parseInt(jm.value[1]);
+
+    overview_stage.setAttribute( "transform", `translate(0 ${ypos}) rotate(0 0 0)`);
+    overview_shift.setAttribute( "transform", `translate(${xpos} 0 ) rotate(0 0 0)`);
+    return;
   }
  
   log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
@@ -54,11 +60,13 @@ btnLog.onclick = (event) => { tab.select(event, 'log'); log.debug('log clicked')
 btnAutorun.click();
 
 var mouseDown = 0;
+
+var v = overview.getAttribute( "viewBox").split(" ");
 var viewBox = {
-  x: 0,
-  y: 0,
-  width: 500,
-  height: 500,
+  x: parseInt(v[0]),
+  y: parseInt(v[1]),
+  width: parseInt(v[2]),
+  height: parseInt(v[3]),
 }
 
 overview.onmousemove = (event) => {
@@ -70,7 +78,7 @@ overview.onmousemove = (event) => {
 }
 
 overview.onmousewheel = (event) => {
-  var z = event.deltaY / 10;
+  var z = -event.deltaY / 10;
   viewBox.x += z;
   viewBox.y += z;
   viewBox.width -= z*2;

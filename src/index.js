@@ -7,6 +7,9 @@ const tab = new Tab();
 const dgram = require('dgram');
 const comm = dgram.createSocket('udp4');
 
+const Drawing = require("./drawing");
+const mainDrawing = new Drawing( "overview" );
+
 comm.on('error', (err) => {
   log.error(`comm error:\n${err.stack}`);
   comm.close();
@@ -58,43 +61,6 @@ btnAutorun.onclick = (event) => { tab.select(event, 'autorun'); log.debug('autor
 btnManual.onclick = (event) => { tab.select(event, 'manual'); log.debug('manual clicked'); }
 btnLog.onclick = (event) => { tab.select(event, 'log'); log.debug('log clicked'); }
 btnAutorun.click();
-
-var mouseDown = 0;
-
-var v = overview.getAttribute( "viewBox").split(" ");
-var viewBox = {
-  x: parseInt(v[0]),
-  y: parseInt(v[1]),
-  width: parseInt(v[2]),
-  height: parseInt(v[3]),
-}
-
-overview.onmousemove = (event) => {
-  if (mouseDown == 1) {
-    viewBox.x += event.movementX;
-    viewBox.y += event.movementY;
-    overview.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
-  }
-}
-
-overview.onmousewheel = (event) => {
-  var z = -event.deltaY / 10;
-  viewBox.x += z;
-  viewBox.y += z;
-  viewBox.width -= z*2;
-  viewBox.height -= z*2;
-  overview.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
-}
-
-overview.onmousedown = (event) => {
-  mouseDown = event.which;
-}
-
-overview.onmouseup = (event) => {
-  mouseDown = 0;
-}
-
-
 
 btnRun.onclick = (event) => {
   comm.send(

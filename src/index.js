@@ -1,5 +1,6 @@
 const Log = require("./log")
-const log = new Log().getLogger("index");
+const logView = new Log();
+const log = logView.getLogger("index");
 
 const Tab = require('./tab');
 const tab = new Tab();
@@ -8,7 +9,7 @@ const dgram = require('dgram');
 const comm = dgram.createSocket('udp4');
 
 const Drawing = require("./drawing");
-const mainDrawing = new Drawing( "overview" );
+const overviewDrawing = new Drawing( "overview" );
 
 comm.on('error', (err) => {
   log.error(`comm error:\n${err.stack}`);
@@ -46,6 +47,12 @@ comm.on('message', (msg, rinfo) => {
     overview_shift.setAttribute( "transform", `translate(${xpos} 0 ) rotate(0 0 0)`);
     return;
   }
+
+  if( jm != null && jm.cmd == 'log')
+  {
+    logView.addLog( jm.time, jm.severity, "remote", jm.msg );
+    return;
+  }
  
   log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 });
@@ -64,7 +71,7 @@ btnAutorun.click();
 
 btnRun.onclick = (event) => {
   comm.send(
-    '"cmd":"runEquipment"',
+    '{"cmd":"runEquipment"}',
     50000, 'localhost',
     (err) => {
       log.error("Failed to send runEquipment");
@@ -73,7 +80,7 @@ btnRun.onclick = (event) => {
 
 btnStop.onclick = (event) => {
   comm.send(
-    '"cmd":"stopEquipment"',
+    '{"cmd":"stopEquipment"}',
     50000, '127.0.0.1',
     (err) => {
       log.error("Failed to send stopEquipment");

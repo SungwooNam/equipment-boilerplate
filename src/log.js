@@ -11,7 +11,7 @@ class Log {
                 process.exit(1);
             }
         }
-
+ 
         log4js.addLayout('json', function (config) {
             return function (logEvent) {
                 var table = document.getElementById("logTable");
@@ -34,7 +34,19 @@ class Log {
     {
         return log4js.getLogger( category );
     }
-    
+
+    addLog(time, severity, category, msg )
+    {
+        var table = document.getElementById("logTable");
+        if ( table != null) {
+            var row = document.createElement("tr");
+            row.innerHTML =
+                `<td>${time}</td>
+                <td>${category}</td>
+                <td>${msg}</td>`;
+            table.append(row);
+        }
+    } 
 }
 
 module.exports = Log;

@@ -9,7 +9,7 @@ const dgram = require('dgram');
 const comm = dgram.createSocket('udp4');
 
 const Drawing = require("./drawing");
-const overviewDrawing = new Drawing( "overview" );
+const overviewDrawing = new Drawing("overview");
 
 comm.on('error', (err) => {
   log.error(`comm error:\n${err.stack}`);
@@ -17,6 +17,42 @@ comm.on('error', (err) => {
 });
 
 comm.on('message', (msg, rinfo) => {
+
+  var packetType = msg.readUInt32LE(0);
+
+  if (packetType == 0x6182) {
+    var header = {
+      type: packetType,
+      length: msg.readUInt16LE(4),
+      width: msg.readUInt16LE(6),
+      height: msg.readUInt16LE(8),
+      bpp: msg.readUInt16LE(10),
+      regionX: msg.readUInt16LE(12),
+      regionY: msg.readUInt16LE(14),
+      regionWidth: msg.readUInt16LE(16),
+      regionHeight: msg.readUInt16LE(18),
+    };
+
+    if ( header.width == 160 && header.height == 120 && header.bpp == 32) {
+      var canvas = document.getElementById("cameraImage");
+      var context = canvas.getContext("2d");
+
+      context.putImageData( 
+        new ImageData(
+          new Uint8ClampedArray( msg.buffer, 20 ), 
+          header.regionWidth, header.regionHeight 
+        ), 
+        header.regionX, header.regionY, 
+        0, 0, header.regionWidth, header.regionHeight );
+    }
+    else
+    {
+      log.error( `Cannot support image with ${header.width}x${header.height}x${header.bpp}` );
+    }
+
+    return;
+  }
+
   var jm = JSON.parse(msg);
 
   if (jm != null && jm.cmd == 'ioUpdate') {
@@ -43,17 +79,16 @@ comm.on('message', (msg, rinfo) => {
     var ypos = -parseInt(jm.value[0]);
     var xpos = parseInt(jm.value[1]);
 
-    overview_stage.setAttribute( "transform", `translate(0 ${ypos}) rotate(0 0 0)`);
-    overview_shift.setAttribute( "transform", `translate(${xpos} 0 ) rotate(0 0 0)`);
+    overview_stage.setAttribute("transform", `translate(0 ${ypos}) rotate(0 0 0)`);
+    overview_shift.setAttribute("transform", `translate(${xpos} 0 ) rotate(0 0 0)`);
     return;
   }
 
-  if( jm != null && jm.cmd == 'log')
-  {
-    logView.addLog( jm.time, jm.severity, "remote", jm.msg );
+  if (jm != null && jm.cmd == 'log') {
+    logView.addLog(jm.time, jm.severity, "remote", jm.msg);
     return;
   }
- 
+
   log.info(`comm got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 });
 
@@ -85,4 +120,19 @@ btnStop.onclick = (event) => {
     (err) => {
       log.error("Failed to send stopEquipment");
     });
+}
+
+window.onload = function () {
+  initCameraImage();
+}
+
+function initCameraImage() {
+  var canvas = document.getElementById("cameraImage");
+  var context = canvas.getContext("2d");
+
+  var image = new Image();
+  image.src = "./sunflower.png";
+  image.onload = (arg) => { 
+    context.drawImage(image, 0, 0);
+  };
 }

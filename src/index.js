@@ -33,21 +33,20 @@ comm.on('message', (msg, rinfo) => {
       regionHeight: msg.readUInt16LE(18),
     };
 
-    if ( header.width == 160 && header.height == 120 && header.bpp == 32) {
+    if (header.width == 160 && header.height == 120 && header.bpp == 32) {
       var canvas = document.getElementById("cameraImage");
       var context = canvas.getContext("2d");
 
-      context.putImageData( 
+      context.putImageData(
         new ImageData(
-          new Uint8ClampedArray( msg.buffer, 20 ), 
-          header.regionWidth, header.regionHeight 
-        ), 
-        header.regionX, header.regionY, 
-        0, 0, header.regionWidth, header.regionHeight );
+          new Uint8ClampedArray(msg.buffer, 20),
+          header.regionWidth, header.regionHeight
+        ),
+        header.regionX, header.regionY,
+        0, 0, header.regionWidth, header.regionHeight);
     }
-    else
-    {
-      log.error( `Cannot support image with ${header.width}x${header.height}x${header.bpp}` );
+    else {
+      log.error(`Cannot support image with ${header.width}x${header.height}x${header.bpp}`);
     }
 
     return;
@@ -56,8 +55,6 @@ comm.on('message', (msg, rinfo) => {
   var jm = JSON.parse(msg);
 
   if (jm != null && jm.cmd == 'ioUpdate') {
-    // log.info(`ioUpdate @${jm.address} : ${jm.value}`);
-
     if (jm.address == 0x300) {
       var inport = document.getElementById('ioIn').getElementsByTagName('input');
       for (var i = 0; i < inport.length; ++i) {
@@ -99,9 +96,18 @@ comm.on('listening', () => {
 
 comm.bind(41234);
 
-btnAutorun.onclick = (event) => { tab.select(event, 'autorun'); log.debug('autorun clicked'); }
-btnManual.onclick = (event) => { tab.select(event, 'manual'); log.debug('manual clicked'); }
-btnLog.onclick = (event) => { tab.select(event, 'log'); log.debug('log clicked'); }
+btnAutorun.onclick = (event) => {
+  tab.select(event, 'autorun');
+  log.debug('autorun clicked');
+}
+btnManual.onclick = (event) => {
+  tab.select(event, 'manual');
+  log.debug('manual clicked');
+}
+btnLog.onclick = (event) => {
+  tab.select(event, 'log');
+  log.debug('log clicked');
+}
 btnAutorun.click();
 
 btnRun.onclick = (event) => {
@@ -132,7 +138,7 @@ function initCameraImage() {
 
   var image = new Image();
   image.src = "./sunflower.png";
-  image.onload = (arg) => { 
+  image.onload = (arg) => {
     context.drawImage(image, 0, 0);
   };
 }

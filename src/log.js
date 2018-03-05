@@ -2,7 +2,6 @@ var log4js = require('log4js');
 
 class Log {
     constructor() {
-
         try {
             require('fs').mkdirSync('./log');
         } catch (e) {
@@ -12,26 +11,23 @@ class Log {
             }
         }
  
-        log4js.addLayout('json', function (config) {
-            return function (logEvent) {
+        log4js.addLayout('showImmediate', function (config) {
+            return ( log ) => {
                 var table = document.getElementById("logTable");
                 if (table != null) {
                     var row = document.createElement("tr");
                     row.innerHTML =
-                        `<td>${logEvent.startTime.toLocaleString()}</td>
-                        <td>${logEvent.categoryName}</td>
-                        <td>${logEvent.data}</td>`;
+                        `<td>${log.startTime.toLocaleString()}</td>
+                        <td>${log.categoryName}</td>
+                        <td>${log.data}</td>`;
                     table.append(row);
                 }
-
-                return "";
             }
         });
         log4js.configure('./config/log4js.json');
     }
 
-    getLogger( category )
-    {
+    getLogger( category ) {
         return log4js.getLogger( category );
     }
 

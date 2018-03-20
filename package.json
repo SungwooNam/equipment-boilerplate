@@ -1,25 +1,58 @@
 {
-  "name": "mocha_test",
+  "name": "equipement-boiler-plate",
   "version": "1.0.0",
-  "description": "...",
+  "description": "equipement boiler-plate - monitoring equipement and control process",
   "main": "src/main.js",
   "scripts": {
+    "postinstall": "install-app-deps",
+    "pack": "build --dir",
+    "dist": "build",
     "test": "mocha --recursive tests",
     "start": "electron ."
   },
-  "author": "Sungwoo Nam",
-  "license": "ISC",
+  "author": "Sungwoo Nam <the.sungwoo@gmail.com>",
+  "license": "MIT",
+  "build": {
+    "appId": "yourappid",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "extraFiles": [
+      "config"
+    ],    
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "electron": "^1.8.2",
+    "electron-builder": "latest",
     "electron-mocha": "^5.0.0",
     "nock": "^9.1.6",
     "sinon": "^4.3.0",
     "spectron": "^3.8.0"
   },
   "dependencies": {
-    "log4js": "^2.5.3",
-    "request": "^2.83.0"
+    "log4js": "^2.5.3"
   }
 }
